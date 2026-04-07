@@ -310,10 +310,16 @@ function drawOverlay(imgData, overlayMode) {
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 1;
 
-    // GT hip - white crosshair
-    drawCrosshair(ctx, gtHip.x * scaleX, gtHip.y * scaleY, 8, '#fff');
-    // GT knee - white crosshair
-    drawCrosshair(ctx, gtKnee.x * scaleX, gtKnee.y * scaleY, 8, '#fff');
+    // GT hip - white dot
+    ctx.beginPath();
+    ctx.arc(gtHip.x * scaleX, gtHip.y * scaleY, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    // GT knee - white dot
+    ctx.beginPath();
+    ctx.arc(gtKnee.x * scaleX, gtKnee.y * scaleY, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
 
     // Draw model predictions
     const models = overlayMode === 'all' ? Object.keys(DATA.models) : [overlayMode];
@@ -322,38 +328,17 @@ function drawOverlay(imgData, overlayMode) {
       if (!r) continue;
       const color = MODEL_COLORS[model].primary;
 
-      // Hip prediction - circle
+      // Hip prediction - solid dot
       ctx.beginPath();
-      ctx.arc(r.pred_hip.x * scaleX, r.pred_hip.y * scaleY, 5, 0, Math.PI * 2);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      ctx.arc(r.pred_hip.x * scaleX, r.pred_hip.y * scaleY, 3, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
 
-      // Knee prediction - circle
+      // Knee prediction - solid dot
       ctx.beginPath();
-      ctx.arc(r.pred_knee.x * scaleX, r.pred_knee.y * scaleY, 5, 0, Math.PI * 2);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      // Line from GT to pred (error visualization)
-      ctx.beginPath();
-      ctx.moveTo(gtHip.x * scaleX, gtHip.y * scaleY);
-      ctx.lineTo(r.pred_hip.x * scaleX, r.pred_hip.y * scaleY);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.5;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-
-      ctx.beginPath();
-      ctx.moveTo(gtKnee.x * scaleX, gtKnee.y * scaleY);
-      ctx.lineTo(r.pred_knee.x * scaleX, r.pred_knee.y * scaleY);
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.5;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
+      ctx.arc(r.pred_knee.x * scaleX, r.pred_knee.y * scaleY, 3, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
     }
   };
 
