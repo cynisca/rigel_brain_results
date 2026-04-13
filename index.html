@@ -196,21 +196,21 @@ function drawOverlay(idx) {
   const sx = rect.width / d.width;
   const sy = rect.height / d.height;
 
-  // Ground truth
+  // Ground truth (white filled dots)
   ctx.fillStyle = "#fff";
-  ctx.beginPath(); ctx.arc(d.gt_hip.x*sx, d.gt_hip.y*sy, 4, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(d.gt_knee.x*sx, d.gt_knee.y*sy, 4, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(d.gt_hip.x*sx, d.gt_hip.y*sy, 3, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(d.gt_knee.x*sx, d.gt_knee.y*sy, 3, 0, Math.PI*2); ctx.fill();
 
+  // Model predictions (colored filled dots)
   MODEL_KEYS.forEach(m => {
     const r = d.results[m];
     if (!r) return;
     const c = COLORS[m]?.primary || "#888";
-    ctx.strokeStyle = c;
-    ctx.lineWidth = 1.5;
+    ctx.fillStyle = c;
     // Hip
-    ctx.beginPath(); ctx.arc(r.pred_hip.x*sx, r.pred_hip.y*sy, 5, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(r.pred_hip.x*sx, r.pred_hip.y*sy, 3, 0, Math.PI*2); ctx.fill();
     // Knee
-    ctx.beginPath(); ctx.arc(r.pred_knee.x*sx, r.pred_knee.y*sy, 5, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(r.pred_knee.x*sx, r.pred_knee.y*sy, 3, 0, Math.PI*2); ctx.fill();
   });
 }
 
